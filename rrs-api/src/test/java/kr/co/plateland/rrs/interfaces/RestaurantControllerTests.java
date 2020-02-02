@@ -1,5 +1,7 @@
 package kr.co.plateland.rrs.interfaces;
 
+import kr.co.plateland.rrs.domain.MenuItemRepository;
+import kr.co.plateland.rrs.domain.MenuItemRepositoryImpl;
 import kr.co.plateland.rrs.domain.RestaurantRepository;
 import kr.co.plateland.rrs.domain.RestaurantRepositoryImpl;
 import org.junit.Test;
@@ -26,6 +28,9 @@ public class RestaurantControllerTests {
     @SpyBean(RestaurantRepositoryImpl.class)
     private RestaurantRepository restaurantRepository;
 
+    @SpyBean(MenuItemRepositoryImpl.class)
+    private MenuItemRepository menuItemRepository;
+
     @Test
     public void list() throws Exception {
         mvc.perform(get("/restaurants"))
@@ -43,7 +48,9 @@ public class RestaurantControllerTests {
                 .andExpect(content().string(
                         containsString("\"id\":1004")))
                 .andExpect(content().string(
-                        containsString("\"name\":\"Bob Jip\"")));
+                        containsString("\"name\":\"Bob Jip\"")))
+                .andExpect(content().string(
+                        containsString("JJajangmen")));
 
         mvc.perform(get("/restaurants/2020"))
                 .andExpect(status().isOk())
