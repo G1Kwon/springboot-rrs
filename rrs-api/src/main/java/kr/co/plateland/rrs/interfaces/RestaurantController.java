@@ -2,6 +2,7 @@ package kr.co.plateland.rrs.interfaces;
 
 import kr.co.plateland.rrs.domain.Restaurant;
 import kr.co.plateland.rrs.domain.RestaurantRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,7 +12,12 @@ import java.util.List;
 @RestController
 public class RestaurantController {
 
-    private RestaurantRepository repository = new RestaurantRepository();
+    //구현체가 아닌 Interface에서 의존 받도록 설정
+    @Autowired
+    private RestaurantRepository repository;
+
+    //Autowire를 이용해 직접 객체를 만들지 않는다.
+    //private RestaurantRepository repository = new RestaurantRepository();
 
     @GetMapping("/restaurants")
     public List<Restaurant> list() {

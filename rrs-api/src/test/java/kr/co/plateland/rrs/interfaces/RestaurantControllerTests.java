@@ -1,14 +1,16 @@
 package kr.co.plateland.rrs.interfaces;
 
+import kr.co.plateland.rrs.domain.RestaurantRepository;
+import kr.co.plateland.rrs.domain.RestaurantRepositoryImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.core.StringContains.containsString;
-import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -19,6 +21,10 @@ public class RestaurantControllerTests {
 
     @Autowired
     private MockMvc mvc;
+
+    //특정 구현체를 사용하겠다라고 선언해야 한다.
+    @SpyBean(RestaurantRepositoryImpl.class)
+    private RestaurantRepository restaurantRepository;
 
     @Test
     public void list() throws Exception {
