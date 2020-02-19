@@ -1,5 +1,6 @@
 package kr.co.plateland.rrs.interfaces;
 
+import kr.co.plateland.rrs.application.RestaurantService;
 import kr.co.plateland.rrs.domain.MenuItemRepository;
 import kr.co.plateland.rrs.domain.MenuItemRepositoryImpl;
 import kr.co.plateland.rrs.domain.RestaurantRepository;
@@ -23,6 +24,9 @@ public class RestaurantControllerTests {
 
     @Autowired
     private MockMvc mvc;
+
+    @SpyBean(RestaurantService.class)
+    private RestaurantService restaurantService;
 
     //특정 구현체를 사용하겠다라고 선언해야 한다.
     @SpyBean(RestaurantRepositoryImpl.class)

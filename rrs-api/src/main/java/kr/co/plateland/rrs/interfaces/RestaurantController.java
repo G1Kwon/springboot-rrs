@@ -1,5 +1,6 @@
 package kr.co.plateland.rrs.interfaces;
 
+import kr.co.plateland.rrs.application.RestaurantService;
 import kr.co.plateland.rrs.domain.MenuItem;
 import kr.co.plateland.rrs.domain.MenuItemRepository;
 import kr.co.plateland.rrs.domain.Restaurant;
@@ -21,6 +22,9 @@ public class RestaurantController {
     @Autowired
     private MenuItemRepository menuItemRepository;
 
+    @Autowired
+    private RestaurantService restaurantService;
+
     //Autowire를 이용해 직접 객체를 만들지 않는다.
     //private RestaurantRepository repository = new RestaurantRepository();
 
@@ -33,14 +37,18 @@ public class RestaurantController {
         restaurants.add(new Restaurant(2020L, "Cyber Food", "Seoul"));
 */
 
-        List<Restaurant> restaurants = restaurantRepository.findAll();
+        List<Restaurant> restaurants = restaurantService.getRestaurants();
 
         return restaurants;
     }
 
     @GetMapping("/restaurants/{id}")
     public Restaurant detail(@PathVariable("id") Long id) {
-        Restaurant restaurant = restaurantRepository.findById(id);
+        // 기본정보 + 메뉴정보
+        // 기존의 repository는 일종의 collection과 같은 역할을 했다.
+        // restautantService는 application Layer에서 추가가 된다.
+        Restaurant restaurant = restaurantService.getRestaurant(id);
+
 /*      중복코드를 Repository에 밀어넣었다.
         Restaurant restaurant = restaurants.stream()
                 .filter(r -> r.getId().equals(id))
@@ -56,8 +64,11 @@ public class RestaurantController {
             restaurant = new Restaurant(2020L, "Cyber Food", "Seoul");
         }*/
 
+/*      RestaurantRepository 에서 다 처리할 예정이다.
+        Restaurant restaurant = restaurantRepository.findById(id);
         List<MenuItem> menuItems = menuItemRepository.findAllByRestaurantId(id);
         restaurant.setMenuItems(menuItems);
+*/
 
         return restaurant;
     }
